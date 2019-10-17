@@ -5,6 +5,11 @@
     "contributors": [
         "Dario Morandini <dario@morandini.org>"
     ],
+    "keywords": [
+        "XML",
+        "JavaScript",
+        "Node.js"
+    ],
     "Author": "Dario Morandini",
     "scripts": {
         "ci": "ENV=ci eslint src examples/**/code && ENV=ci istanbul cover --root src/ jasmine",
