@@ -1,0 +1,33 @@
+{
+    "name": "jsonml",
+    "version": "0.0.1",
+    "description": "A JsonML suite",
+    "contributors": [
+        "Dario Morandini <dario@morandini.org>"
+    ],
+    "Author": "Dario Morandini",
+    "scripts": {
+        "ci": "ENV=ci eslint src examples/**/code && ENV=ci istanbul cover --root src/ jasmine",
+        "cover": "ENV=test istanbul cover --root src/ jasmine",
+        "lint": "ENV=test eslint src examples/**/code",
+        "test": "ENV=test jasmine"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eit6609/jsonml.git"
+    },
+    "main": "src/index.js",
+    "license": "ISC",
+    "devDependencies": {
+        "eslint": "^5.4.0",
+        "istanbul": "^0.4.5",
+        "jasmine": "^2.5.2",
+        "jasmine-core": "^2.5.2",
+        "jasmine-expect": "^3.6.0",
+        "jasmine-promises": "^0.4.1",
+        "jasmine-spec-reporter": "^3.2.0"
+    },
+    "dependencies": {
+        "htmlparser2": "^4.0.0"
+    }
+}
