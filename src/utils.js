@@ -4,24 +4,24 @@ const
     { inspect } = require('util'),
     { isArray, forEach, isString, isPlainObject, isUndefined, slice, toPairs } = require('lodash');
 
-module.exports.validate = function (jsonml) {
-    if (isString(jsonml)) {
+module.exports.validate = function (jsml) {
+    if (isString(jsml)) {
         return;
     }
-    if (!isArray(jsonml)) {
-        throw new Error (`Invalid JsonML: ${inspect(jsonml)} is neither an array nor a string`);
+    if (!isArray(jsml)) {
+        throw new Error (`Invalid JsonML: ${inspect(jsml)} is neither an array nor a string`);
     }
-    if (jsonml.length === 0) {
+    if (jsml.length === 0) {
         throw new Error ('Invalid JsonML: [] is an empty array');
     }
-    if (!isString(jsonml[0])) {
-        throw new Error (`Invalid JsonML: first item ${inspect(jsonml[0])} is not a string`);
-    } else if (jsonml[0] === '') {
+    if (!isString(jsml[0])) {
+        throw new Error (`Invalid JsonML: first item ${inspect(jsml[0])} is not a string`);
+    } else if (jsml[0] === '') {
         throw new Error ('Invalid JsonML: first item \'\' is the empty string');
     }
     let childrenStartIndex = 1;
-    if (isPlainObject(jsonml[1])) {
-        forEach(toPairs(jsonml[1]), ([name, value]) => {
+    if (isPlainObject(jsml[1])) {
+        forEach(toPairs(jsml[1]), ([name, value]) => {
             if (!isString(value)) {
                 throw new Error(
                     `Invalid JsonML: the value of attribute "${name}", ${inspect(value)}, is not a string`
@@ -30,7 +30,7 @@ module.exports.validate = function (jsonml) {
         });
         childrenStartIndex++;
     }
-    forEach(slice(jsonml, childrenStartIndex), (child) => module.exports.validate(child));
+    forEach(slice(jsml, childrenStartIndex), (child) => module.exports.validate(child));
 };
 
 module.exports.getTag = function ([tag]) {
