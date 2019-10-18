@@ -33,6 +33,7 @@
         "jasmine-spec-reporter": "^3.2.0"
     },
     "dependencies": {
-        "htmlparser2": "^4.0.0"
+        "htmlparser2": "^4.0.0",
+        "lodash": "^4.17.15"
     }
 }
