@@ -1,10 +1,12 @@
 'use strict';
 
 const
-    Parser = require('./jsonml-parser.js'),
-    Serializer = require('./jsonml-serializer.js'),
-    Utils = require('./jsonml-utils.js');
+    Handler = require('./handler.js'),
+    Parser = require('./parser.js'),
+    Serializer = require('./serializer.js'),
+    Utils = require('./utils.js');
 
+module.exports.Handler = Handler;
 module.exports.Parser = Parser;
 module.exports.Serializer = Serializer;
 module.exports.Utils = Utils;
