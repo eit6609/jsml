@@ -10,17 +10,17 @@ It was born from a couple of good ideas:
 
 ## The rules
 
-The very simple rules for this structure are:
+The very simple rules for the representation are:
 
 * an element is represented by an array, where:
-	* the first item is a string that repesents the tag
+	* the first item is a string that represents the tag
 	* the second item can be an object: in this case the value of its properties
 	  must be strings, and it represents the attributes
 	* the other items, starting from index 2 if there are attributes, and from 1
 	  if there are not, represent the children
 * a text is represented by a string
 
-Wait a minute, this is JsonML! Well, *when strignified to JSON* it is JsonML. But in this library we focus in the *live* JavaScript structure, that's why we user another name.
+Wait a minute, this is JsonML! Well, *when stringified to JSON* it is JsonML. But in this library we focus in the *live* JavaScript structure, that's why we used another name.
 
 ### Examples:
 
@@ -28,7 +28,7 @@ JavaScript|XML
 ----------|---
 `['br']`|`<br />`
 `['p', 'a paragraph']`|`<p>a paragraph text</p>`
-`['span', {class: 'small'}, 'a span']`|`<span class="small">a span text</span>`
+`['span', {class: 'small'}, 'a span text']`|`<span class="small">a span text</span>`
 
 A  more compex exaple is this XML:
 
@@ -43,7 +43,7 @@ A  more compex exaple is this XML:
 </root>
 ```
 
-that is represented, in JavaScript, by this object:
+that is represented, in JavaScript, by this structure:
 
 ```js
 [
