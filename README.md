@@ -27,18 +27,18 @@ Wait a minute, this is JsonML! Well, *when stringified to JSON* it is JsonML. Bu
 JavaScript|XML
 ----------|---
 `['br']`|`<br />`
-`['p', 'a paragraph']`|`<p>a paragraph text</p>`
+`['p', 'a paragraph text']`|`<p>a paragraph text</p>`
 `['span', {class: 'small'}, 'a span text']`|`<span class="small">a span text</span>`
 
 A  more compex exaple is this XML:
 
 ```xml
 <root>
-    <a-list attr="value">
+    <a-list-element attr="value">
         <a-flat-element attr1="val1" attr2="val2"/>
         <a-flat-element attr1="val3" attr2="val4"/>
         <an-element-with-text>this is the text</an-element-with-text>
-    </a-list>
+    </a-list-element>
 <![CDATA[A CDATA here!]]>
 </root>
 ```
@@ -46,7 +46,7 @@ A  more compex exaple is this XML:
 that is represented, in JavaScript, by this structure:
 
 ```js
-[
+const jsml = [
     'root',
     '\n    ',
     [
