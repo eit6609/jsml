@@ -338,3 +338,52 @@ getChildrenStartIndex (jsml: (string | array)): integer
 ```
 
 It gets the index where the (possible) children of an element begin, which is `1` or `2`.
+
+##### Examples
+
+```js
+'use strict';
+
+const { JSMLUtils: { getTag, getAttributes, getChildren, getChildrenStartIndex, validate } } = require('jsml');
+
+const jsml = [
+    'html',
+    { xmlns: 'http://www.w3.org/1999/xhtml' },
+    [
+        'head',
+        ['title', 'Cover']
+    ],
+    [
+        'body',
+        [
+            'div',
+            { style: 'text-align:center;height:100%;' },
+            [
+                'img',
+                {
+                    alt: 'Can\'t see this image?',
+                    src: 'cover.jpg',
+                    style: 'max-width:100%;height:100%;'
+                }
+            ]
+        ]
+    ]
+];
+
+console.log(getTag(jsml));
+// html
+console.log(getAttributes(jsml));
+// { xmlns: 'http://www.w3.org/1999/xhtml' }
+console.log(getChildren(jsml)[0]);
+// ['head', ['title', 'Cover']]
+console.log(getAttributes(['p', 'text of p']));
+// undefined
+console.log(getChildren(['hr']));
+// []
+console.log(getChildrenStartIndex(['br']));
+// 1
+console.log(getChildrenStartIndex(['span', { class: 'big' }]));
+// 2
+validate(42);
+// Error: Invalid JsonML: 42 is neither an array nor a string
+```
