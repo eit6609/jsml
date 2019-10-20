@@ -31,6 +31,8 @@ class JSMLSerializer {
     constructor (options) {
         options = options || {};
         this.newline = options.newline === true;
+        this.appendDeclaration = options.appendDeclaration === true;
+        this.docType = options.docType;
     }
 
     append (text) {
@@ -75,23 +77,23 @@ class JSMLSerializer {
         }
     }
 
-    serialize (jsml, docType = null, appendDeclaration = true) {
+    serialize (jsml) {
         validate(jsml);
         this.chunks = [];
-        if (appendDeclaration) {
+        if (this.appendDeclaration) {
             this.append('<?xml version="1.0" encoding="utf-8"?>');
             this.nl();
         }
-        if (docType) {
-            this.append(docType);
+        if (this.docType) {
+            this.append(this.docType);
             this.nl();
         }
         this.serializeRecursive(jsml);
         return this.chunks.join('');
     }
 
-    save (jsml, filename, docType = null) {
-        fs.writeFileSync(filename, this.serialize(jsml, docType), 'utf8');
+    save (jsml, filename) {
+        fs.writeFileSync(filename, this.serialize(jsml), 'utf8');
     }
 
 }
