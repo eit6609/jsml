@@ -91,7 +91,7 @@ This library for Node.js (> 8.10) provides:
 
 ### API
 
-#### Parser
+#### JSMLParser
 
 This is a very thin wrapper around htmlparser2, to hide the details of the parser if you don't care about it and you
 just want a JSML.
@@ -146,7 +146,7 @@ console.dir(jsml, { depth: null });
 */
 ```
 
-#### Serializer
+#### JSMLSerializer
 
 With the Serializer you can transform a JSML into an XML string.
 
@@ -156,14 +156,17 @@ Let's see the methods that the user is likely to need more often.
 constructor (options?: object)
 ```
 
-There is currently just one option:
+These are the supported options:
 
 * `newline`, boolean, default `false`. It triggers the insertion of newlines at the end of the tags. It's not really a
 pretty printing, just a way to have something more understandable than a very long line of text when your JSML was
 created as a literal, and therefore it is unlikely that you have added tabs and newlines.
+* `doctTpe`, the `DOCTYPE` declaration. The default is `null`, that means "no doctype".
+* `appendDeclaration`, when `true` it triggers the output of the XML declaration `<?xml version="1.0" encoding="utf-8"?>`
+   at the beginning of the output. The default is `false`.
 
 ```js
-serialize (jsml: (string | array), docType?: string, appendDeclaration?: boolean): string
+serialize (jsml: (string | array)): string
 ```
 
 It generates the XML string from the JSML.
@@ -171,12 +174,9 @@ It generates the XML string from the JSML.
 The parameters are:
 
 * `jsml`, the JSML structure
-* `doctTpe`, the `DOCTYPE` declaration. The default is `null`, that means "no doctype"
-* `appendDeclaration`, when `true` it triggers the output of the XML declaration `<?xml version="1.0" encoding="utf-8"?>`
-   at the beginning of the output. The default is `true`.
 
 ```js
-save (jsml: (string | array), filename: string, docType?: string)
+save (jsml: (string | array), filename: string)
 ```
 
 A utility method that saves (synchronously) the generated XML to a file.
@@ -185,7 +185,6 @@ The parameters are:
 
 * `jsml`, the JSML structure
 * `filename`, the name of the file
-* `doctTpe`, the `DOCTYPE` declaration. The default is `null`, that means "no doctype"
 
 #### Examples
 
@@ -208,14 +207,13 @@ let serializer = new JSMLSerializer();
 console.log(serializer.serialize(jsml));
 
 /*
-<?xml version="1.0" encoding="utf-8"?><root><a-list-element attr="value"><a-flat-element attr1="val1" attr2="val2" /><an-element-with-text>this is the text</an-element-with-text></a-list-element></root>
+<root><a-list-element attr="value"><a-flat-element attr1="val1" attr2="val2" /><an-element-with-text>this is the text</an-element-with-text></a-list-element></root>
 */
 
 let serializer = new JSMLSerializer({ newline: true });
 console.log(serializer.serialize(jsml));
 
 /*
-<?xml version="1.0" encoding="utf-8"?>
 <root>
 <a-list-element attr="value">
 <a-flat-element attr1="val1" attr2="val2" />
@@ -248,8 +246,12 @@ jsml = [
     ]
 ];
 
-let serializer = new JSMLSerializer({ newline: true });
-console.log(serializer.serialize(jsml, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'));
+let serializer = new JSMLSerializer({
+    newline: true,
+	appendDeclaration: true,
+    docType: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'
+});
+console.log(serializer.serialize(jsml));
 
 /*
 <?xml version="1.0" encoding="utf-8"?>
@@ -267,7 +269,7 @@ console.log(serializer.serialize(jsml, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML
 */
 ```
 
-#### Utils
+#### JSMLUtils
 
 There are very few utilities, just to avoid the boilerplate for  accessing the parts of an element.
 
@@ -279,29 +281,29 @@ Sorry, no functions for navigation and modification, but the structure is so sim
 validate (jsml: (string | array))
 ```
 
-Throws an Error if `jsml` is not a well formed JSML, i.e. it does not follow the mapping rules stated at the beginning
+It throws an Error if `jsml` is not a well formed JSML, i.e. it does not follow the mapping rules stated at the beginning
 of this README.
 
 ```js
 getTag (jsml: (string | array)): string
 ```
-Gets the tag of the element. Not a big effort, it is equivalent to `jsml[0]`, but it completes the functions that
+It gets the tag of the element. Not a big effort, it is equivalent to `jsml[0]`, but it completes the functions that
 give a uniform access to the parts of an element.
 
 ```js
 getAttributes (jsml: (string | array)): object?
 ```
 
-Gets the attributes of an element, if it has some. Otherwise returns `undefined`
+It gets the attributes of an element, if it has some. Otherwise it returns `undefined`
 
 ```js
 getChildren (jsml: (string | array)): array
 ```
 
-Gets the children of an element, if it has some. Otherwise returns `[]`.
+It gets the children of an element, if it has some. Otherwise it returns `[]`.
 
 ```js
 getChildrenStartIndex (jsml: (string | array)): integer
 ```
 
-Gets the index where the (possible) children of an element begin, which is `1` or `2`.
+It gets the index where the (possible) children of an element begin, which is `1` or `2`.
