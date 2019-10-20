@@ -146,6 +146,37 @@ console.dir(jsml, { depth: null });
 */
 ```
 
+#### JSMLHandler
+
+If you are not satisfied with the simple implementation of the parser, which parses a string with the whole XML, you can
+use directly htmlparser2 with its streaming interface. Just pass an instance of JSMLHandler as handler to the
+constructor of the parser and use the `root` attribute of the handler when you have finished.
+
+##### Example
+
+```js
+'use strict';
+
+const
+    { JSMLHandler } = require('jsml'),
+    { Parser } = require('htmlparser2');
+
+const handler = new JSMLHandler();
+const parser = new Parser(handler, { xmlMode: true, decodeEntities: true }));
+
+function getNextChunk () {
+    // ...
+}
+
+let chunk;
+while (chunk = getNextChunk()) {
+	parser.write(chunk);
+}
+parser.end();
+const jsml = handler.root;
+// ...
+```
+
 #### JSMLSerializer
 
 With the Serializer you can transform a JSML into an XML string.
@@ -248,7 +279,7 @@ jsml = [
 
 let serializer = new JSMLSerializer({
     newline: true,
-	appendDeclaration: true,
+    appendDeclaration: true,
     docType: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">'
 });
 console.log(serializer.serialize(jsml));
