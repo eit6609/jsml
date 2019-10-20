@@ -1,7 +1,7 @@
 'use strict';
 
 const
-    { isArray, forEach, map, isEmpty, isString, toPairs } = require('lodash'),
+    { forEach, map, isArray, isEmpty, isString, toPairs } = require('lodash'),
     { getAttributes, getChildren, getTag, validate } = require('./utils.js'),
     fs = require('fs');
 
@@ -28,8 +28,9 @@ class JSMLSerializer {
         ).join(' ');
     }
 
-    constructor (pretty = true) {
-        this.pretty = pretty;
+    constructor (options) {
+        options = options || {};
+        this.newline = options.newline === true;
     }
 
     append (text) {
@@ -37,7 +38,7 @@ class JSMLSerializer {
     }
 
     nl () {
-        if (this.pretty) {
+        if (this.newline) {
             this.append('\n');
         }
     }
