@@ -8,17 +8,24 @@ const
 
 class JSMLParser {
 
-    parseString (xml, options) {
+    constructor (options) {
+        this.options = options;
+    }
+
+    parseString (xml) {
         const handler = new JSMLHandler();
-        const parser = new htmlparser.Parser(handler, assign(options || {}, { xmlMode: true, decodeEntities: true }));
+        const parser = new htmlparser.Parser(
+            handler,
+            assign(this.options || {}, { xmlMode: true, decodeEntities: true })
+        );
         parser.write(xml);
         parser.end();
         return handler.root;
     }
 
-    parseFile (filename, options) {
+    parseFile (filename) {
         const xml = fs.readFileSync(filename, 'utf8');
-        return this.parseString(xml, options);
+        return this.parseString(xml);
     }
 
 }
