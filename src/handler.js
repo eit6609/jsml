@@ -18,6 +18,9 @@ class JSMLHandler {
     }
 
     ontext (text) {
+        if (isEmpty(this.stack)) {
+            return;
+        }
         last(this.stack).push(text);
     }
 
@@ -31,7 +34,7 @@ class JSMLHandler {
     }
 
     oncdatastart () {
-        this.onopentag('!CDATA');
+        this.onopentag('!CDATA', {});
     }
 
     oncdataend () {
