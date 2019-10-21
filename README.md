@@ -101,20 +101,24 @@ But if you know htmlparser2 you can configure it using its options.
 Let's see the methods.
 
 ```js
-parseString(xml: string, options?: object): (string | array)
+constructor(options?: object)
+```
+
+* `options` is optional and contains the options for the htmlparser2 parser.
+
+```js
+parseString(xml: string): (string | array)
 ```
 
 * `xml` is a string containing the XML.
-* `options` is optional and contains the options for the htmlparser2 parser.
 
 The result is a JSML structure.
 
 ```js
-parseFile(filename: string, options?: object): (string | array)
+parseFile(filename: string): (string | array)
 ```
 
 * `filename` is a string containing the file name.
-* `options` is optional and contains the options for the htmlparser2 parser.
 
 All the content of the file gets read (synchronously) and passed to the `parseString()` method.
 
