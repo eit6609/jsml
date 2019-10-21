@@ -309,11 +309,18 @@ There is also a validation function, which is very useful.
 Sorry, no functions for navigation and modification, but the structure is so simple that they are hardly needed. You can code them by yourself, after all you are a programmer and I don't want you to miss all the fun!
 
 ```js
-validate (jsml: (string | array))
+validateJSML (jsml: any)
 ```
 
-It throws an Error if `jsml` is not a well formed JSML, i.e. it does not follow the mapping rules stated at the beginning
-of this README.
+It throws an Error if `jsml` is not a well formed JSML, i.e. it does not follow the mapping rules stated at the
+beginning of this README.
+
+```js
+validateElement (element: any)
+```
+
+It throws an Error if `jsml` is not a well formed JSML element, i.e. it does not follow the mapping rules stated at the
+beginning of this README.
 
 ```js
 getTag (jsml: (string | array)): string
@@ -344,7 +351,7 @@ It gets the index where the (possible) children of an element begin, which is `1
 ```js
 'use strict';
 
-const { JSMLUtils: { getTag, getAttributes, getChildren, getChildrenStartIndex, validate } } = require('jsml');
+const { JSMLUtils: { getTag, getAttributes, getChildren, getChildrenStartIndex, validateJSML, validateElement } } = require('jsml');
 
 const jsml = [
     'html',
@@ -384,6 +391,8 @@ console.log(getChildrenStartIndex(['br']));
 // 1
 console.log(getChildrenStartIndex(['span', { class: 'big' }]));
 // 2
-validate(42);
-// Error: Invalid JsonML: 42 is neither an array nor a string
+validateJSML(42);
+// Error: Invalid JSML: 42 is neither an array nor a string
+validateElement('string');
+// Error: Invalid JSML element: 'string' is not an array
 ```
