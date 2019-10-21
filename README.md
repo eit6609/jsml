@@ -82,7 +82,7 @@ JSML is a compact structure, which can be easily:
 * serialized to an XML
 * manipulated
 
-This library for Node.js (> 8.10) provides:
+This library for Node.js (>= 6.10) provides:
 
 * a handler for [htmlparser2](https://github.com/fb55/htmlparser2)
 * a parser that creates a JSML from an XML string
@@ -98,16 +98,25 @@ just want a JSML.
 
 But if you know htmlparser2 you can configure it using its options.
 
-It has only one method:
+Let's see the methods.
 
 ```js
-parse(xml: string, options?: object)
+parseString(xml: string, options?: object): (string | array)
 ```
 
 * `xml` is a string containing the XML.
 * `options` is optional and contains the options for the htmlparser2 parser.
 
 The result is a JSML structure.
+
+```js
+parseFile(filename: string, options?: object): (string | array)
+```
+
+* `filename` is a string containing the file name.
+* `options` is optional and contains the options for the htmlparser2 parser.
+
+All the content of the file gets read (synchronously) and passed to the `parseString()` method.
 
 ##### Example
 
@@ -125,7 +134,7 @@ const xml = `<root>
 <![CDATA[A CDATA here!]]>
 </root>`;
 
-const jsml = new JSMLParser().parse(xml);
+const jsml = new JSMLParser().parseString(xml);
 console.dir(jsml, { depth: null });
 
 /*
@@ -200,7 +209,7 @@ created as a literal, and therefore it is unlikely that you have added tabs and 
 serialize (jsml: (string | array)): string
 ```
 
-It generates the XML string from the JSML.
+It validates the input (with `JSMLUtils.validateJSML`) and then it generates the XML string from the JSML.
 
 The parameters are:
 
@@ -211,6 +220,8 @@ save (jsml: (string | array), filename: string)
 ```
 
 A utility method that saves (synchronously) the generated XML to a file.
+
+It opens the file and write the result of `serialize`.
 
 The parameters are:
 
