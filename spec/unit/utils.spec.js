@@ -62,7 +62,7 @@ describe('JSMLUtils', () => {
                 validateElement('hello');
                 fail();
             } catch (error) {
-                expect(error.message).toBe('Invalid JSML: \'hello\' is not an array');
+                expect(error.message).toBe('Invalid JSML element: \'hello\' is not an array');
             }
         });
         it('should throw if the argument is an empty array', () => {
@@ -70,7 +70,7 @@ describe('JSMLUtils', () => {
                 validateElement([]);
                 fail();
             } catch (error) {
-                expect(error.message).toBe('Invalid JSML: [] is an empty array');
+                expect(error.message).toBe('Invalid JSML element: [] is an empty array');
             }
         });
         it('should throw if the argument is an array with a non string as first item', () => {
@@ -78,7 +78,7 @@ describe('JSMLUtils', () => {
                 validateElement([9]);
                 fail();
             } catch (error) {
-                expect(error.message).toBe('Invalid JSML: first item 9 is not a string');
+                expect(error.message).toBe('Invalid JSML element: first item 9 is not a string');
             }
         });
         it('should throw if the argument is an array with an empty string as first item', () => {
@@ -86,7 +86,7 @@ describe('JSMLUtils', () => {
                 validateElement(['']);
                 fail();
             } catch (error) {
-                expect(error.message).toBe('Invalid JSML: first item \'\' is the empty string');
+                expect(error.message).toBe('Invalid JSML element: first item \'\' is the empty string');
             }
         });
         it('should return if the argument an array with a non empty string as first item', () => {

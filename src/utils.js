@@ -35,15 +35,15 @@ module.exports.validateJSML = function (jsml) {
 
 module.exports.validateElement = function (jsml) {
     if (!isArray(jsml)) {
-        throw new Error (`Invalid JSML: ${inspect(jsml)} is not an array`);
+        throw new Error (`Invalid JSML element: ${inspect(jsml)} is not an array`);
     }
     if (jsml.length === 0) {
-        throw new Error ('Invalid JSML: [] is an empty array');
+        throw new Error ('Invalid JSML element: [] is an empty array');
     }
     if (!isString(jsml[0])) {
-        throw new Error (`Invalid JSML: first item ${inspect(jsml[0])} is not a string`);
+        throw new Error (`Invalid JSML element: first item ${inspect(jsml[0])} is not a string`);
     } else if (jsml[0] === '') {
-        throw new Error ('Invalid JSML: first item \'\' is the empty string');
+        throw new Error ('Invalid JSML element: first item \'\' is the empty string');
     }
 };
 
