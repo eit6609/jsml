@@ -2,7 +2,7 @@
 
 const
     { forEach, map, isArray, isEmpty, isString, toPairs } = require('lodash'),
-    { getAttributes, getChildren, getTag, validate } = require('./utils.js'),
+    { getAttributes, getChildren, getTag, validateJSML } = require('./utils.js'),
     fs = require('fs');
 
 class JSMLSerializer {
@@ -19,6 +19,11 @@ class JSMLSerializer {
         return text
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;');
+    }
+
+    static escapeCDATA (text) {
+        return text
+            .replace(/]]>/g, ']]]]><![CDATA[>');
     }
 
     static serializeAttributes (attributes) {
@@ -52,7 +57,7 @@ class JSMLSerializer {
         } else {
             const tag = getTag(jsml);
             if (tag === '!CDATA') {
-                this.append(`<![CDATA[${jsml[1]}]]>`);
+                this.append(`<![CDATA[${JSMLSerializer.escapeCDATA(jsml[1])}]]>`);
                 this.nl();
             } else {
                 const attributes = getAttributes(jsml);
@@ -78,7 +83,7 @@ class JSMLSerializer {
     }
 
     serialize (jsml) {
-        validate(jsml);
+        validateJSML(jsml);
         this.chunks = [];
         if (this.appendDeclaration) {
             this.append('<?xml version="1.0" encoding="utf-8"?>');
