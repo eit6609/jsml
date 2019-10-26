@@ -40,12 +40,48 @@ describe('JSMLUtils', () => {
                 expect(error.message).toBe('Invalid JSML: first item \'\' is the empty string');
             }
         });
+        it('should throw if the tag is not a valid XML name [because of illegal characters]', () => {
+            try {
+                validateJSML(['not valid']);
+                fail();
+            } catch (error) {
+                expect(error.message).toBe('Invalid JSML: the string \'not valid\', is not a valid XML name');
+            }
+        });
+        it('should throw if the tag is not a valid XML name [because it starts with `xml`]', () => {
+            try {
+                validateJSML(['xmlnotvalid']);
+                fail();
+            } catch (error) {
+                expect(error.message)
+                    .toBe('Invalid JSML: the name \'xmlnotvalid\', is not valid because it starts with \'XML\'');
+            }
+        });
         it('should throw if the argument has attributes with non string values', () => {
             try {
-                validateJSML(['tag', { number: 9 }]);
+                validateJSML(['ns:tag', { number: 9 }]);
                 fail();
             } catch (error) {
                 expect(error.message).toBe('Invalid JSML: the value of attribute \'number\', 9, is not a string');
+            }
+        });
+        it('should throw if the argument has attributes with an invalid XML name [because of illegal ' +
+            'characters]', () => {
+            try {
+                validateJSML(['tag', { '!CDATA': 'val' }]);
+                fail();
+            } catch (error) {
+                expect(error.message).toBe('Invalid JSML: the string \'!CDATA\', is not a valid XML name');
+            }
+        });
+        it('should throw if the argument has attributes with an invalid XML name [because it starts with ' +
+            '`xml`]', () => {
+            try {
+                validateJSML(['tag', { xml: 'true' }]);
+                fail();
+            } catch (error) {
+                expect(error.message)
+                    .toBe('Invalid JSML: the name \'xml\', is not valid because it starts with \'XML\'');
             }
         });
         it('should return if the argument is a string', () => {

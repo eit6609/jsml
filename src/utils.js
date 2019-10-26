@@ -4,6 +4,25 @@ const
     { inspect } = require('util'),
     { isArray, forEach, isString, isPlainObject, isUndefined, slice, toPairs } = require('lodash');
 
+
+const NAME_REGEXP = /^[_A-Za-z][-._0-9A-Za-z]*(:[_A-Za-z][-._0-9A-Za-z]*)?$/;
+
+function validateNAME (name, isAttribute) {
+    if (name === '!CDATA' && !isAttribute) {
+        return;
+    }
+    if (!NAME_REGEXP.test(name)) {
+        throw new Error(
+            `Invalid JSML: the string '${name}', is not a valid XML name`
+        );
+    }
+    if (name.toLowerCase().startsWith('xml')) {
+        throw new Error(
+            `Invalid JSML: the name '${name}', is not valid because it starts with 'XML'`
+        );
+    }
+}
+
 module.exports.validateJSML = function (jsml) {
     if (isString(jsml)) {
         return;
@@ -19,9 +38,11 @@ module.exports.validateJSML = function (jsml) {
     } else if (jsml[0] === '') {
         throw new Error ('Invalid JSML: first item \'\' is the empty string');
     }
+    validateNAME(jsml[0]);
     let childrenStartIndex = 1;
     if (isPlainObject(jsml[1])) {
         forEach(toPairs(jsml[1]), ([name, value]) => {
+            validateNAME(name, true);
             if (!isString(value)) {
                 throw new Error(
                     `Invalid JSML: the value of attribute '${name}', ${inspect(value)}, is not a string`
@@ -45,6 +66,7 @@ module.exports.validateElement = function (jsml) {
     } else if (jsml[0] === '') {
         throw new Error ('Invalid JSML element: first item \'\' is the empty string');
     }
+    validateNAME(jsml[0]);
 };
 
 module.exports.getTag = function (element) {
