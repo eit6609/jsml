@@ -12,9 +12,10 @@ class JSMLParser {
         this.options = options;
     }
 
-    parseString (xml) {
-        const handler = new JSMLHandler();
-        const parser = new htmlparser.Parser(
+    parseString (xml, handler, ParserConstructor) {
+        handler = handler || new JSMLHandler();
+        ParserConstructor = ParserConstructor || htmlparser.Parser;
+        const parser = new ParserConstructor(
             handler,
             assign(this.options || {}, { xmlMode: true, decodeEntities: true })
         );
