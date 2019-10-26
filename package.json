@@ -2,9 +2,6 @@
     "name": "jsml",
     "version": "1.0.0",
     "description": "A compact and lossless XML JavaScript representation",
-    "contributors": [
-        "Dario Morandini <dario@morandini.org>"
-    ],
     "keywords": [
         "XML",
         "JavaScript",
