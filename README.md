@@ -26,6 +26,7 @@ Wait a minute, this is JsonML! Well, *when stringified to JSON* it is JsonML. Bu
 
 JavaScript|XML
 ----------|---
+'a text'|a text
 `['br']`|`<br />`
 `['p', 'a paragraph text']`|`<p>a paragraph text</p>`
 `['span', {class: 'small'}, 'a span text']`|`<span class="small">a span text</span>`
@@ -317,11 +318,11 @@ console.log(serializer.serialize(jsml));
 
 #### JSMLUtils
 
-There are very few utilities, just to avoid the boilerplate for  accessing the parts of an element.
+There are very few utilities, just to avoid the boilerplate for accessing the parts of an element and have some
+validation.
 
-There is also a validation function, which is very useful.
-
-Sorry, no functions for navigation and modification, but the structure is so simple that they are hardly needed. You can code them by yourself, after all you are a programmer and I don't want you to miss all the fun!
+Sorry, no functions for navigation and modification, but the structure is so simple that they are hardly needed. You
+can code them by yourself, after all you are a programmer and I don't want you to miss all the fun!
 
 ```js
 validateJSML (jsml: any)
@@ -335,7 +336,7 @@ validateElement (element: any)
 ```
 
 It throws an Error if `jsml` is not a well formed JSML element, i.e. it does not follow the mapping rules stated at the
-beginning of this README.
+beginning of this README, but limited to the proper element (array).
 
 ```js
 getTag (jsml: (string | array)): string
@@ -366,7 +367,11 @@ It gets the index where the (possible) children of an element begin, which is `1
 ```js
 'use strict';
 
-const { JSMLUtils: { getTag, getAttributes, getChildren, getChildrenStartIndex, validateJSML, validateElement } } = require('jsml');
+const {
+    JSMLUtils: {
+        getTag, getAttributes, getChildren, getChildrenStartIndex, validateJSML, validateElement
+    }
+} = require('jsml');
 
 const jsml = [
     'html',
