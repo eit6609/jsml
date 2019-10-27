@@ -1,11 +1,12 @@
 {
-    "name": "jsml",
-    "version": "1.0.0",
+    "name": "@eit6609/jsml",
+    "version": "1.0.1",
     "description": "A compact and lossless XML JavaScript representation",
     "keywords": [
-        "XML",
-        "JavaScript",
-        "Node.js"
+        "xml",
+        "xhtml",
+        "html",
+        "json"
     ],
     "Author": "Dario Morandini",
     "scripts": {
@@ -15,6 +16,7 @@
         "test": "ENV=test jasmine",
         "test-integration": "ENV=test jasmine JASMINE_CONFIG_PATH=spec/support/jasmine.integration.json"
     },
+    "homepage": "https://github.com/eit6609/jsml.git",
     "repository": {
         "type": "git",
         "url": "https://github.com/eit6609/jsml.git"
