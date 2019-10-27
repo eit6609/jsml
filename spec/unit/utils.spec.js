@@ -54,7 +54,7 @@ describe('JSMLUtils', () => {
                 fail();
             } catch (error) {
                 expect(error.message)
-                    .toBe('Invalid JSML: the name \'xmlnotvalid\', is not valid because it starts with \'XML\'');
+                    .toBe('Invalid JSML: the element name \'xmlnotvalid\' is not valid because it starts with \'xml\'');
             }
         });
         it('should throw if the argument has attributes with non string values', () => {
@@ -72,16 +72,6 @@ describe('JSMLUtils', () => {
                 fail();
             } catch (error) {
                 expect(error.message).toBe('Invalid JSML: the string \'!CDATA\', is not a valid XML name');
-            }
-        });
-        it('should throw if the argument has attributes with an invalid XML name [because it starts with ' +
-            '`xml`]', () => {
-            try {
-                validateJSML(['tag', { xml: 'true' }]);
-                fail();
-            } catch (error) {
-                expect(error.message)
-                    .toBe('Invalid JSML: the name \'xml\', is not valid because it starts with \'XML\'');
             }
         });
         it('should return if the argument is a string', () => {

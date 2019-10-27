@@ -16,9 +16,9 @@ function validateNAME (name, isAttribute) {
             `Invalid JSML: the string '${name}', is not a valid XML name`
         );
     }
-    if (name.toLowerCase().startsWith('xml')) {
+    if (!isAttribute && name.toLowerCase().startsWith('xml')) {
         throw new Error(
-            `Invalid JSML: the name '${name}', is not valid because it starts with 'XML'`
+            `Invalid JSML: the element name '${name}' is not valid because it starts with 'xml'`
         );
     }
 }
