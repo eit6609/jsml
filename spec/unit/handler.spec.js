@@ -13,6 +13,7 @@ describe('JSMLHandler', () => {
     describe('constructor()', () => {
         it('should initialize the stack', () => {
             expect(sut.stack).toBeEmptyArray();
+            expect(sut.document).toEqual(['!DOCUMENT']);
         });
     });
 
@@ -59,7 +60,7 @@ describe('JSMLHandler', () => {
         it('should call sut.onopentag() with the special "!CDATA" tag and no attributes', () => {
             spyOn(sut, 'onopentag');
             sut.oncdatastart();
-            expect(sut.onopentag).toHaveBeenCalledWith('!CDATA', {});
+            expect(sut.onopentag).toHaveBeenCalledWith('!CDATA');
         });
     });
 
@@ -68,6 +69,30 @@ describe('JSMLHandler', () => {
             spyOn(sut, 'onclosetag');
             sut.oncdataend();
             expect(sut.onclosetag).toHaveBeenCalledWith();
+        });
+    });
+
+    describe('onprocessinginstruction()', () => {
+        it('should append the PI to the document if the stack is empty', () => {
+            sut.onprocessinginstruction('?a-pi', '?a-pi its content?');
+            expect(sut.stack).toBeEmptyArray();
+            expect(sut.document).toEqual(['!DOCUMENT', ['?a-pi', 'its content']]);
+        });
+        it('should append the XML declaration to the document if the stack is empty', () => {
+            sut.onprocessinginstruction('?xml', '?xml its content?');
+            expect(sut.stack).toBeEmptyArray();
+            expect(sut.document).toEqual(['!DOCUMENT', ['?xml', 'its content']]);
+        });
+        it('should append the DOCTYPE to the document if the stack is empty', () => {
+            sut.onprocessinginstruction('!DOCTYPE', '!DOCTYPE its content');
+            expect(sut.stack).toBeEmptyArray();
+            expect(sut.document).toEqual(['!DOCUMENT', ['!DOCTYPE', 'its content']]);
+        });
+        it('should append the PI to the stack if it is not empty', () => {
+            sut.stack = ['elem'];
+            sut.onprocessinginstruction('?a-pi', '?a-pi its content?');
+            expect(sut.document).toEqual(['!DOCUMENT']);
+            expect(sut.stack).toEqual(['elem', ['?a-pi', 'its content']]);
         });
     });
 

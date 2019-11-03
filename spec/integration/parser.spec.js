@@ -3,9 +3,11 @@
 const
     { JSMLParser } = require('../../src/index.js');
 
-const FILENAME = 'spec/fixtures/test2.xml';
+const
+    FILENAME1 = 'spec/fixtures/test1.xml',
+    FILENAME2 = 'spec/fixtures/test2.xml';
 
-describe('JSMLParser [integration]', () => {
+fdescribe('JSMLParser [integration]', () => {
 
     describe('parseString()', () => {
         it('should give the expected JSML', () => {
@@ -42,42 +44,89 @@ describe('JSMLParser [integration]', () => {
     });
 
     describe('parseFile()', () => {
-        it('should give the expected JSML', () => {
-            const expectedJSML = [
-                'html',
-                { xmlns: 'http://www.w3.org/1999/xhtml' },
-                '\n    ',
+        it('should give the expected JSML [with utf-8 encoding]', () => {
+            const expectedDocument = [
+                '!DOCUMENT',
+                ['?xml', 'version="1.0" encoding="utf-8"'],
+                ['!DOCTYPE', 'html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"'],
                 [
-                    'head',
-                    '\n        ',
-                    ['title', 'Title of the ebook'],
-                    '\n    '
-                ],
-                '\n    ',
-                [
-                    'body',
-                    '\n        ',
+                    'html',
+                    { xmlns: 'http://www.w3.org/1999/xhtml' },
+                    '\n    ',
                     [
-                        'div',
-                        { style: 'text-align:center;height:100%;' },
-                        '\n            ',
-                        [
-                            'img',
-                            {
-                                alt: 'Cover for "Title of the ebook"',
-                                src: 'images/cover.png',
-                                style: 'max-width:100%;height:100%;'
-                            }
-                        ],
-                        '\n        '
+                        'head',
+                        '\n        ',
+                        ['title', 'Title of the ebook'],
+                        '\n    '
                     ],
-                    '\n    '
-                ],
-                '\n'
+                    '\n    ',
+                    [
+                        'body',
+                        '\n        ',
+                        [
+                            'div',
+                            { style: 'text-align:center;height:100%;' },
+                            '\n            ',
+                            [
+                                'img',
+                                {
+                                    alt: 'Cover for "Title of the ebook"',
+                                    src: 'images/cover.png',
+                                    style: 'max-width:100%;height:100%;'
+                                }
+                            ],
+                            '\n        '
+                        ],
+                        '\n    '
+                    ],
+                    '\n'
+                ]
             ];
             const sut = new JSMLParser();
-            const jsml = sut.parseFile(FILENAME);
-            expect(jsml).toEqual(expectedJSML);
+            const document = sut.parseFile(FILENAME1);
+            expect(document).toEqual(expectedDocument);
+        });
+        it('should give the expected JSML [with ISO-10646-UCS-2 encoding]', () => {
+            const expectedDocument = [
+                '!DOCUMENT',
+                ['?xml', 'version="1.0" encoding="ISO-10646-UCS-2"'],
+                ['!DOCTYPE', 'html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"'],
+                [
+                    'html',
+                    { xmlns: 'http://www.w3.org/1999/xhtml' },
+                    '\n    ',
+                    [
+                        'head',
+                        '\n        ',
+                        ['title', 'Title of the ebook'],
+                        '\n    '
+                    ],
+                    '\n    ',
+                    [
+                        'body',
+                        '\n        ',
+                        [
+                            'div',
+                            { style: 'text-align:center;height:100%;' },
+                            '\n            ',
+                            [
+                                'img',
+                                {
+                                    alt: 'Cover for "Title of the ebook"',
+                                    src: 'images/cover.png',
+                                    style: 'max-width:100%;height:100%;'
+                                }
+                            ],
+                            '\n        '
+                        ],
+                        '\n    '
+                    ],
+                    '\n'
+                ]
+            ];
+            const sut = new JSMLParser();
+            const document = sut.parseFile(FILENAME2, 'utf16');
+            expect(document).toEqual(expectedDocument);
         });
     });
 

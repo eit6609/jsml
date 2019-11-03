@@ -1,12 +1,15 @@
 {
     "name": "@eit6609/jsml",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "A compact and lossless XML JavaScript representation",
     "keywords": [
+        "jsonml",
         "xml",
         "xhtml",
         "html",
-        "json"
+        "json",
+        "xml2js",
+        "js2xml"
     ],
     "Author": "Dario Morandini",
     "scripts": {
@@ -34,6 +37,7 @@
     },
     "dependencies": {
         "htmlparser2": "^4.0.0",
+        "iconv-lite": "^0.5.0",
         "lodash": "^4.17.15"
     }
 }

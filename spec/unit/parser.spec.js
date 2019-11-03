@@ -4,7 +4,9 @@ const
     fs = require('fs'),
     { JSMLParser } = require('../../src/index.js');
 
-const FILENAME = 'spec/fixtures/test1.xml';
+const
+    FILENAME_ASCII = 'spec/fixtures/test-ascii.xml',
+    FILENAME_UTF8 = 'spec/fixtures/test-utf8.xml';
 
 describe('JSMLParser', () => {
 
@@ -22,7 +24,9 @@ describe('JSMLParser', () => {
 
     describe('parseString()', () => {
         const handler = {
-            root: 'this is the result'
+            getResult () {
+                return 'this is the result';
+            }
         };
         let parser;
         class Parser {
@@ -40,7 +44,7 @@ describe('JSMLParser', () => {
         }
         const xml = 'xml';
         it('should create a handler and a parser with the expected options, then call parser.write() and ' +
-            'parser.end(), then return handler.root', () => {
+            'parser.end(), then return handler.getResult()', () => {
             const result = sut.parseString(xml, handler, Parser);
             expect(parser.handler).toBe(handler);
             expect(parser.options).toEqual({
@@ -48,7 +52,7 @@ describe('JSMLParser', () => {
                 decodeEntities: true,
                 another: 'option'
             });
-            expect(result).toBe(handler.root);
+            expect(result).toBe('this is the result');
             expect(parser.write).toHaveBeenCalledWith(xml);
             expect(parser.end).toHaveBeenCalledWith();
         });
@@ -63,11 +67,19 @@ describe('JSMLParser', () => {
     });
 
     describe('parseFile()', () => {
-        it('should open the file with the given name, sychronously read all its content and call sut.parseString() ' +
-            'with the content', () => {
+        it('should open the file with the given name and encoding, sychronously read all its content and call ' +
+            'sut.parseString() with the content', () => {
             spyOn(sut, 'parseString').and.returnValue('result');
-            const xml = fs.readFileSync(FILENAME, 'utf8');
-            const result = sut.parseFile(FILENAME);
+            const xml = fs.readFileSync(FILENAME_ASCII, 'ascii');
+            const result = sut.parseFile(FILENAME_ASCII, 'ascii');
+            expect(result).toBe('result');
+            expect(sut.parseString).toHaveBeenCalledWith(xml);
+        });
+        it('should open the file with the given name, sychronously read all its content with utf8 encoding and call ' +
+            'sut.parseString() with the content', () => {
+            spyOn(sut, 'parseString').and.returnValue('result');
+            const xml = fs.readFileSync(FILENAME_UTF8, 'utf8');
+            const result = sut.parseFile(FILENAME_UTF8);
             expect(result).toBe('result');
             expect(sut.parseString).toHaveBeenCalledWith(xml);
         });

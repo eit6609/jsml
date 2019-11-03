@@ -3,8 +3,9 @@
 const
     { assign } = require('lodash'),
     fs = require('fs'),
-    JSMLHandler = require('./handler.js'),
-    htmlparser = require('htmlparser2');
+    htmlparser = require('htmlparser2'),
+    iconv = require('iconv-lite'),
+    JSMLHandler = require('./handler.js');
 
 class JSMLParser {
 
@@ -21,11 +22,11 @@ class JSMLParser {
         );
         parser.write(xml);
         parser.end();
-        return handler.root;
+        return handler.getResult();
     }
 
-    parseFile (filename) {
-        const xml = fs.readFileSync(filename, 'utf8');
+    parseFile (filename, encoding = 'utf8') {
+        const xml = iconv.decode(fs.readFileSync(filename), encoding);
         return this.parseString(xml);
     }
 
