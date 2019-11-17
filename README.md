@@ -1,4 +1,4 @@
-# jsml
+# JSML
 
 JSML (JavaScript Markup Language) is a library that enables a compact and straightforward representation of XML
 in JavaScript.
@@ -8,6 +8,12 @@ It was born from a couple of good ideas:
 * [JsonML](http://www.jsonml.org/), which is a JSON representation of XML.
 * [Hiccup](https://github.com/weavejester/hiccup), which is a Clojure library for HTML templating that converts Clojure
   data structures to HTML.
+
+Run this to install:
+
+```bash
+npm i @eit6609/jsml
+```
 
 ## The rules
 
@@ -255,7 +261,7 @@ These are the supported options:
   examples.
 
 ```js
-serialize (jsml: (string | array)): string
+serialize (item: (string | array)): string
 ```
 
 The input can be a document or a JSML. It validates the input and then it generates the XML string.
@@ -325,7 +331,7 @@ console.log(serializer.serialize(jsml));
 </root>
 */
 
-doc = [
+const doc = [
     '!DOCUMENT',
     ['?xml', 'version="1.0" encoding="utf-8"'],
     ['!DOCTYPE', 'html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"',
@@ -470,7 +476,7 @@ destructureElement (jsml: array): object
 ```
 It returns an object describing the element, like this:
 
-```
+```js
 {
     tag: 'a-tag',
     attributes: { some: 'value' }
